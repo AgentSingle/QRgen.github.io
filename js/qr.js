@@ -47,25 +47,65 @@ QR_Download_BTN.addEventListener('click', (e) => {
     if (QR_CONTAINER.lastElementChild){
         var fileURL = QR_CONTAINER.lastElementChild.src;
         // console.warn(fileURL+';base64,')
-        fetch(fileURL)
-        .then(response => response.blob())
-        .then(blob => {
-            console.warn(blob)
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            console.warn(url)
-            a.style.display = 'none';
-            a.href = url;
-            a.target = '_blank';
+        // fetch(fileURL)
+        // .then(response => response.blob())
+        // .then(blob => {
+        //     const url = URL.createObjectURL(blob);
+        //     const downloadLink = document.createElement('a');
+        //     downloadLink.style.display = 'none';
+        //     downloadLink.href = url;
+        //     // the filename you want
+        //     downloadLink.download = 'qr_code.png';
+        //     downloadLink.target = '_blank';
 
-            // the filename you want
-            // a.download = '';
-            document.body.appendChild(a);
-            a.click();
-            URL.revokeObjectURL(url);
-            a.remove(); // remove the element
-        });
+        //     document.body.appendChild(downloadLink);
+        //     downloadLink.click();
+        //     URL.revokeObjectURL(url);
+        //     downloadLink.remove(); // remove the element
+        // });
+        downloadImage(fileURL, 'qr_png.png');
     }
  
     
 })
+
+const downloadImage = (linkSource, fileName) => {
+    const downloadLink = document.createElement("a");
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+
+    if (navigator.msSaveOrOpenBlob) {
+        fetch(linkSource)
+            .then(response => response.blob())
+            .then(blob => {
+                navigator.msSaveOrOpenBlob(blob, fileName);
+            });
+    } else {
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+};
+// const downloadBase64Image = (base64, fileName) => {
+//     const linkSource = `data:image/png;base64,${base64}`;
+//     const downloadLink = document.createElement("a");
+//     downloadLink.href = linkSource;
+//     downloadLink.download = fileName;
+
+//     if (navigator.msSaveOrOpenBlob) {
+//         const byteCharacters = atob(base64);
+//         const byteNumbers = new Array(byteCharacters.length);
+//         for (let i = 0; i < byteCharacters.length; i++) {
+//             byteNumbers[i] = byteCharacters.charCodeAt(i);
+//         }
+//         const byteArray = new Uint8Array(byteNumbers);
+//         const blob = new Blob([byteArray], { type: "image/png" });
+//         navigator.msSaveOrOpenBlob(blob, fileName);
+//     } else {
+//         downloadLink.style.display = "none";
+//         document.body.appendChild(downloadLink);
+//         downloadLink.click();
+//         document.body.removeChild(downloadLink);
+//     }
+// };
