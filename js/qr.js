@@ -50,14 +50,16 @@ QR_Download_BTN.addEventListener('click', (e) => {
         fetch(fileURL)
         .then(response => response.blob())
         .then(blob => {
-            // const url = URL.createObjectURL(blob);
+            console.warn(blob)
+            const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
+            console.warn(url)
             a.style.display = 'none';
-            // a.href = url;
-            a.href = '../dummy/download.png';
+            a.href = url;
             a.target = '_blank';
+
             // the filename you want
-            a.download = 'qr_code.png';
+            // a.download = '';
             document.body.appendChild(a);
             a.click();
             URL.revokeObjectURL(url);
