@@ -70,22 +70,26 @@ QR_Download_BTN.addEventListener('click', (e) => {
 })
 
 const downloadImage = (linkSource, fileName) => {
-    const downloadLink = document.createElement("a");
-    downloadLink.href = linkSource;
-    downloadLink.download = fileName;
-
-    if (navigator.msSaveOrOpenBlob) {
-        fetch(linkSource)
-            .then(response => response.blob())
-            .then(blob => {
-                navigator.msSaveOrOpenBlob(blob, fileName);
+    fetch(linkSource)
+        .then(response => response.blob())
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            const img = document.createElement("img");
+            img.style.display = "none";
+            img.src = url;
+            document.body.appendChild(img);
+            img.addEventListener("load", () => {
+                URL.revokeObjectURL(url);
+                const a = document.createElement("a");
+                a.style.display = "none";
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                document.body.removeChild(img);
             });
-    } else {
-        downloadLink.style.display = "none";
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-    }
+        });
 };
 // const downloadBase64Image = (base64, fileName) => {
 //     const linkSource = `data:image/png;base64,${base64}`;
