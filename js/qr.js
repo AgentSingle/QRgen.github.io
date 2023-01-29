@@ -43,16 +43,24 @@ qrContentInput.addEventListener('input', ()=>{
 // ADD DOWNLOAD BUTTON
 QR_Download_BTN.addEventListener('click', (e) => {
     e.preventDefault();
-    var fileURL = QR_CONTAINER.lastElementChild.src;
+    
     if (QR_CONTAINER.lastElementChild){
-        var downloadLink = document.createElement("a");
-        downloadLink.href = fileURL;
-        downloadLink.download = "file-to-download.png";
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
+        var fileURL = QR_CONTAINER.lastElementChild.src;
+        fetch(fileURL)
+        .then(response => response.blob())
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            // the filename you want
+            a.download = 'qr_code.png';
+            document.body.appendChild(a);
+            a.click();
+            URL.revokeObjectURL(url);
+            a.remove(); // remove the element
+        });
     }
  
     
 })
-
