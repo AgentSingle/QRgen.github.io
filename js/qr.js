@@ -43,9 +43,12 @@ qrContentInput.addEventListener('input', ()=>{
 // ADD DOWNLOAD BUTTON
 QR_Download_BTN.addEventListener('click', (e) => {
     e.preventDefault();
-    
-    if (QR_CONTAINER.lastElementChild){
-        var fileURL = QR_CONTAINER.lastElementChild.src;
+    // console.warn(QR_CONTAINER.firstElementChild)
+
+    if (QR_CONTAINER.firstElementChild){
+        let canvas = QR_CONTAINER.firstElementChild;
+        var fileURL = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        // var fileURL = QR_CONTAINER.lastElementChild.src;
         fetch(fileURL)
         .then(response => response.blob())
         .then(blob => {
@@ -60,7 +63,23 @@ QR_Download_BTN.addEventListener('click', (e) => {
             document.body.appendChild(downloadLink);
             downloadLink.click();
             downloadLink.remove(); // remove the element
-            setTimeout(() => URL.revokeObjectURL(downloadLink.href), 3000);
+
+
+            const DisplayText = document.createElement('em');
+            DisplayText.innerText = url;
+            DisplayText.style.position = 'absolute';
+            DisplayText.style.top = '50';
+            DisplayText.style.left = '0';
+
+            document.body.appendChild(DisplayText);
+            setTimeout(() => {
+              DisplayText.remove()  
+            }, 5000);
+
+            setTimeout(() => 
+            URL.revokeObjectURL(
+                downloadLink.href
+            ), 3000);
         });
     }
  

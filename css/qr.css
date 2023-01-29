@@ -9,6 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 .QR_Generator_Blanket_Container{
     padding: 10px;
@@ -72,4 +73,10 @@
 .DownloadLink{
     display: hidden;
     opacity: 0;
+}
+
+em{
+    position: absolute;
+    top: 50px;
+    left: 0;
 }
