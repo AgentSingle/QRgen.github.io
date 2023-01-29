@@ -64,18 +64,6 @@ QR_Download_BTN.addEventListener('click', (e) => {
             downloadLink.click();
             downloadLink.remove(); // remove the element
 
-
-            const DisplayText = document.createElement('em');
-            DisplayText.innerText = url;
-            DisplayText.style.position = 'absolute';
-            DisplayText.style.top = '50';
-            DisplayText.style.left = '0';
-
-            document.body.appendChild(DisplayText);
-            setTimeout(() => {
-              DisplayText.remove()  
-            }, 5000);
-
             setTimeout(() => 
             URL.revokeObjectURL(
                 downloadLink.href
