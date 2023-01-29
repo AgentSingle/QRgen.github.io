@@ -46,70 +46,23 @@ QR_Download_BTN.addEventListener('click', (e) => {
     
     if (QR_CONTAINER.lastElementChild){
         var fileURL = QR_CONTAINER.lastElementChild.src;
-        // console.warn(fileURL+';base64,')
-        // fetch(fileURL)
-        // .then(response => response.blob())
-        // .then(blob => {
-        //     const url = URL.createObjectURL(blob);
-        //     const downloadLink = document.createElement('a');
-        //     downloadLink.style.display = 'none';
-        //     downloadLink.href = url;
-        //     // the filename you want
-        //     downloadLink.download = 'qr_code.png';
-        //     downloadLink.target = '_blank';
+        fetch(fileURL)
+        .then(response => response.blob())
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            const downloadLink = document.createElement('a');
+            downloadLink.style.display = 'none';
+            downloadLink.href = url;
+            // the filename you want
+            downloadLink.download = 'qr_code.png';
+            downloadLink.target = '_blank';
 
-        //     document.body.appendChild(downloadLink);
-        //     downloadLink.click();
-        //     URL.revokeObjectURL(url);
-        //     downloadLink.remove(); // remove the element
-        // });
-        downloadImage(fileURL, 'qr_png.png');
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            downloadLink.remove(); // remove the element
+            setTimeout(() => URL.revokeObjectURL(downloadLink.href), 3000);
+        });
     }
  
     
 })
-
-const downloadImage = (linkSource, fileName) => {
-    fetch(linkSource)
-        .then(response => response.blob())
-        .then(blob => {
-            const url = URL.createObjectURL(blob);
-            const img = document.createElement("img");
-            img.style.display = "none";
-            img.src = url;
-            document.body.appendChild(img);
-            img.addEventListener("load", () => {
-                URL.revokeObjectURL(url);
-                const a = document.createElement("a");
-                a.style.display = "none";
-                a.href = url;
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                document.body.removeChild(img);
-            });
-        });
-};
-// const downloadBase64Image = (base64, fileName) => {
-//     const linkSource = `data:image/png;base64,${base64}`;
-//     const downloadLink = document.createElement("a");
-//     downloadLink.href = linkSource;
-//     downloadLink.download = fileName;
-
-//     if (navigator.msSaveOrOpenBlob) {
-//         const byteCharacters = atob(base64);
-//         const byteNumbers = new Array(byteCharacters.length);
-//         for (let i = 0; i < byteCharacters.length; i++) {
-//             byteNumbers[i] = byteCharacters.charCodeAt(i);
-//         }
-//         const byteArray = new Uint8Array(byteNumbers);
-//         const blob = new Blob([byteArray], { type: "image/png" });
-//         navigator.msSaveOrOpenBlob(blob, fileName);
-//     } else {
-//         downloadLink.style.display = "none";
-//         document.body.appendChild(downloadLink);
-//         downloadLink.click();
-//         document.body.removeChild(downloadLink);
-//     }
-// };
