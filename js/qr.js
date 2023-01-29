@@ -46,13 +46,16 @@ QR_Download_BTN.addEventListener('click', (e) => {
     
     if (QR_CONTAINER.lastElementChild){
         var fileURL = QR_CONTAINER.lastElementChild.src;
+        // console.warn(fileURL+';base64,')
         fetch(fileURL)
         .then(response => response.blob())
         .then(blob => {
-            const url = URL.createObjectURL(blob);
+            // const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.style.display = 'none';
-            a.href = url;
+            // a.href = url;
+            a.href = '../dummy/download.png';
+            a.target = '_blank';
             // the filename you want
             a.download = 'qr_code.png';
             document.body.appendChild(a);
