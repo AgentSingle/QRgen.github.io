@@ -13,7 +13,7 @@ function generateQrCode(qrContent) {
             width: newDimension,
             height: newDimension,
             colorDark: "#009965",
-            colorLight: "#a3ffe0",
+            colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.H,
         });
     return qr_code;
@@ -43,16 +43,14 @@ qrContentInput.addEventListener('input', ()=>{
 // ADD DOWNLOAD BUTTON
 QR_Download_BTN.addEventListener('click', (e) => {
     e.preventDefault();
+    var fileURL = QR_CONTAINER.lastElementChild.src;
     if (QR_CONTAINER.lastElementChild){
-        let dataURL = QR_CONTAINER.lastElementChild.src;
-        let newElement = document.createElement('a');
-        newElement.setAttribute('href', dataURL);
-        newElement.setAttribute('download', 'qr_code.png');
-        newElement.style.display="none";
-        QR_Download_BTN.appendChild(newElement);
-        //onClick property
-        newElement.click();
-        QR_Download_BTN.removeChild(newElement);
+        var downloadLink = document.createElement("a");
+        downloadLink.href = fileURL;
+        downloadLink.download = "file-to-download.png";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
     }
  
     
