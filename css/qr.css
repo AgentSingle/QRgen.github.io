@@ -52,6 +52,15 @@
     align-items: center;
     display: flex;
 }
+/* .QR_Generator_Blanket_Container section img{
+    max-width: 90%;
+    max-height: 90%;
+} */
+.QR_Generator_Blanket_Container main img{
+    max-height: 180px;
+    max-width: 180px;
+}
+
 .Buttons_wrapper{
     height: 50px;
     width: 100%;
@@ -76,10 +85,4 @@
 .DownloadLink{
     display: hidden;
     opacity: 0;
-}
-
-em{
-    position: absolute;
-    top: 50px;
-    left: 0;
 }

@@ -4,21 +4,21 @@ let QR_CONTAINER = document.querySelector('#qr-code');
 let QR_Display_CONTAINER = document.querySelector('#qrcode');
 let dimension = QR_Display_CONTAINER.getBoundingClientRect().height;
 let newDimension = (dimension - 10)
-// let LOGO = `${window.location.origin}/dummy/QR_icon_32x32.png`; // Development
-let LOGO = `https://ataota.github.io/QRgen.github.io/dummy/QR_icon_32x32.png`; // production
+let LOGO = `${window.location.origin}/dummy/QR_icon_144x144.png`; // Development
+// let LOGO = `https://ataota.github.io/QRgen.github.io/dummy/QR_icon_144x144.png`; // production
 QR_CONTAINER.style.height = `${dimension}`;
 QR_CONTAINER.style.width = `${dimension}`;
-QR_Display_CONTAINER.style.width = `${dimension}px`;
-QR_Display_CONTAINER.style.height = `${dimension}px`;
+QR_Display_CONTAINER.style.width = `${dimension -10}px`;
+QR_Display_CONTAINER.style.height = `${dimension - 10}px`;
 let qrCode;
-
+newDimension=720
 // DRAW QR CODE
 function generateQrCode(qrContent) {
     const qr_code = new QRCode("qr-code", {
             text: qrContent,
             width: newDimension,
             height: newDimension,
-            colorDark: "#009965",
+            colorDark: "#2c3e50",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.H,
         });
@@ -70,11 +70,20 @@ const AddLogoInQR = (LOGO) =>{
                 var canvas2 = document.createElement("canvas");
                 canvas2.width = img2.width;
                 canvas2.height = img2.height;
+                canvas2.style.display = 'none';
                 var ctx2 = canvas2.getContext("2d");
                 ctx2.drawImage(img2, 0, 0);
                 ctx2.drawImage(img, (canvas2.width-img.width)/2, (canvas2.height-img.height)/2);
+
+
+                let NewImage = document.createElement('img');
+                NewImage.src = canvas2.toDataURL();
+                NewImage.style.display = 'block';
+                NewImage.height = (dimension - 20);
+                NewImage.width = (dimension - 20);
                 QR_Display_CONTAINER.innerHTML = "";
-                QR_Display_CONTAINER.appendChild(canvas2);
+                QR_Display_CONTAINER.prepend(canvas2);
+                QR_Display_CONTAINER.append(NewImage);
             }
         }
     }
