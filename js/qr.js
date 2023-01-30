@@ -77,7 +77,8 @@ const AddLogoInQR = (LOGO) =>{
 
 
                 let NewImage = document.createElement('img');
-                NewImage.src = canvas2.toDataURL();
+                NewImage.setAttribute('crossOrigin', 'anonymous');
+                NewImage.src = canvas2.toDataURL("image/png");
                 NewImage.style.display = 'block';
                 NewImage.height = (dimension - 20);
                 NewImage.width = (dimension - 20);
