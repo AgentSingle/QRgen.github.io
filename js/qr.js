@@ -13,14 +13,16 @@ QR_CONTAINER.style.width = `${dimension}`;
 QR_Display_CONTAINER.style.width = `${dimension -10}px`;
 QR_Display_CONTAINER.style.height = `${dimension - 10}px`;
 let qrCode;
-newDimension=720
+newDimension=720;
+let SPFC=50;  // SIDE PADDING OF THE CANVAS
+
 // DRAW QR CODE
 function generateQrCode(qrContent) {
     const qr_code = new QRCode("qr-code", {
             text: qrContent,
             width: newDimension,
             height: newDimension,
-            colorDark: "#2c3e50",
+            colorDark: "#006a63",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.H,
         });
@@ -69,11 +71,20 @@ const AddLogoInQR = (LOGO) =>{
             img2.src = NewCanvas.toDataURL();
             img2.onload = function() {
                 var canvas2 = document.createElement("canvas");
-                canvas2.width = img2.width;
-                canvas2.height = img2.height;
+                canvas2.width = img2.width + 2*SPFC;
+                canvas2.height = img2.height + 2*SPFC;
                 canvas2.style.display = 'none';
                 var ctx2 = canvas2.getContext("2d");
-                ctx2.drawImage(img2, 0, 0);
+                let reds = 85;
+                ctx2.drawImage(img2, SPFC, SPFC);
+                ctx2.fillStyle = '#fff';
+                ctx2.beginPath();
+                ctx2.arc((canvas2.width)/2, (canvas2.height)/2, reds, 0, 2*Math.PI);
+                ctx2.fill();
+                ctx2.fillRect(0, 0, SPFC, (img2.height+SPFC))
+                ctx2.fillRect(SPFC, 0, (img2.height+SPFC), SPFC)
+                ctx2.fillRect((img2.height+SPFC), SPFC, SPFC, (img2.height+SPFC))
+                ctx2.fillRect(0, (img2.height+SPFC), (img2.height+SPFC), SPFC)
                 ctx2.drawImage(img, (canvas2.width-img.width)/2, (canvas2.height-img.height)/2);
 
 
